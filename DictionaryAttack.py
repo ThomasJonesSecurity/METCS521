@@ -2,52 +2,40 @@ import sqlite3
 import hashlib
 import binascii
 
-PASSWORD_DICTIONARY = 'common_password_list.txt'   # sam test is a simulated file for testing
+PASSWORD_DICTIONARY = 'common_password_list.txt'
 
-#def create_rainbow_table_datbase():
-connection = sqlite3.connect('rainbow_table.db')
-cursor = connection.cursor()
-cursor.execute('DROP TABLE IF EXISTS rainbow_table')
-cursor.execute('CREATE TABLE rainbow_table(password text, ntlm text)')
-connection.commit()
+def precompute_rainbow_table_db(dictionary_file):
+    connection = sqlite3.connect('rainbow_table.db')
+    cursor = connection.cursor()
+    cursor.execute('DROP TABLE IF EXISTS rainbow_table')
+    cursor.execute('CREATE TABLE rainbow_table(password text, ntlm text)')
+    connection.commit()
 
-with open(PASSWORD_DICTIONARY,'r') as dictionary:
-    for word in dictionary:
-        # Compute NTLM Hash
-        hash = hashlib.new('md4', word.encode('utf-16le')).digest()
-        ntlm = binascii.hexlify(hash)
-        cursor.execute('INSERT INTO rainbow_table VALUES (?,?)',(word,ntlm,))
-dictionary.close()
-connection.commit()
-connection.close()
+    with open(dictionary_file,'r') as dictionary:
+        for word in dictionary:
+            # Compute NTLM Hash
+            hash = hashlib.new('md4', word.encode('utf-16le')).digest()
+            ntlm = binascii.hexlify(hash).decode("utf-8")
+            # Insert into table
+            cursor.execute('INSERT INTO rainbow_table VALUES (?,?)',(word,ntlm,))
 
-# Insert into table
-
-
-
-
-'''
-for password in dictionary:
-    cursor.executemany('INSERT INTO rainbow_table VALUES (?,"","")', password)
-dictionary.close()
-connection.commit()
-connection.close()
-
-def read_in_password_dictionary_list():
-    conn = sqlite3.connect('rainbow_table.db')
-    for row in file(PASSWORD_DICTIONARY,'r').readlines():
-        conn.execute("INSERT INTO rainbow_table (text) VALUES (row);")
+    dictionary.close()
+    connection.commit()
+    connection.close()
     return
 
-def read_in_password_dictionary_list:
+def rainbow_table_lookup(ntlmhash):
+    connection = sqlite3.connect('rainbow_table.db')
+    cursor = connection.cursor()
+    cursor.execute("SELECT password FROM rainbow_table WHERE ntlm=?", (ntlmhash,))
+    record = cursor.fetchone()
+    connection.close()
+    if record is None:
+        print("There is no password match in the given dictionary: ",PASSWORD_DICTIONARY)
+        return None
+    else:
+        return record[0]
 
-    return
 
-def compute_ntlm_hashes:
-
-    return
-
-def compute_lm_hashes:
-
-    return
-'''
+precompute_rainbow_table_db(PASSWORD_DICTIONARY)
+print(rainbow_table_lookup("4f2dbc410d6a0e7dcc7a41978"))
