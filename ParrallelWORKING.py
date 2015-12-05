@@ -15,14 +15,10 @@
 
 import HashedCredential
 import DictionaryAttack
-
-
-import requests  # pip install requests for web API
+import OnlineLookupAttack
 import os
 from tkinter.filedialog import askopenfilename
 from tkinter import *
-from queue import Queue
-from threading import Thread
 
 SAM_TARGET_FILE = 'sam_test'   # sam test is a simulated file for testing
 PASSWORD_DICTIONARY = 'common_password_list.txt'
@@ -63,61 +59,7 @@ def read_and_parse_sam_file_lines(sam_filename):
 
     return accounts
 
-def get_url(a_queue, a_url):
-    # Pre: a_url is a legitimate URL
-    # Post: Content of a_url is at the back #######################
-    a_queue.put(requests.get(a_url))
 
-def online_hash_lookup_by_leakedb_api(accounts_list):
-    # Intent: check http://api.leakdb.net for each hash stored in accounts_list
-    # Precondition: accounts_list has each key as a username and the value
-    #               associated with the key is a list of hashed passwords
-    # Precondition: able to reach api.leakdb.net over the internet
-    # Post condition: prints the username and crack attempt results to console
-
-    ntlm_urls = []
-    lm_urls = []
-    ntlm_queue = Queue()
-    lm_queue = Queue()
-
-    for each_user in accounts_list:
-        # request this each_user ntlm hash from LeakDB API
-        ntlm_urls.append('https://api.leakdb.net/?j=%s' % each_user.ntlm)
-        lm_urls.append('https://api.leakdb.net/?j=%s' % each_user.lm)
-
-    print(ntlm_urls)  #######################################################################################
-    print(lm_urls)  #######################################################################################
-
-    for url in ntlm_urls:
-        thread = Thread(target=get_url, args=(ntlm_queue, url))
-        thread.start()
-
-    print(ntlm_queue.get())  #######################################################################################
-    print(lm_queue.get())  #######################################################################################
-
-    for url in lm_urls:
-        thread = Thread(target=get_url, args=(lm_queue, url))
-        thread.start()
-    pt
-    for this_user in accounts_list:
-        if(ntlm_queue.not_empty):
-            json = ntlm_queue.get()
-            if json['found'] == "true":
-                this_user.cracked(json['hashes'][0]['plaintext'])
-        if(lm_queue.not_empty):
-            json = lm_queue.get()
-            if json['found'] == "true":
-                this_user.cracked(json['hashes'][0]['plaintext'])
-        this_user.write_output()  # echo results
-    return
-
-def ntlm_rainbow_table_attack(dictionary,accounts_list):
-    DictionaryAttack.precompute_rainbow_table_db(dictionary)
-    for each_user in accounts_list:
-        match = DictionaryAttack.rainbow_table_lookup(each_user.ntlm)
-        if match:
-            each_user.cracked(match)
-    return
 
 def draw_gui():
     # Intent: provide a tkinter GUI that allows user to browse for a valid SAM file
@@ -189,8 +131,11 @@ def draw_gui():
 def main():
     ## draw_gui() #################  S K I P    G U I  ########################################################################################################
     read_in_accounts = read_and_parse_sam_file_lines(SAM_TARGET_FILE)
-    online_hash_lookup_by_leakedb_api(read_in_accounts)
-    ###########################################################ntlm_rainbow_table_attack(PASSWORD_DICTIONARY,read_in_accounts)
+    ###########################OnlineLookupAttack.online_hash_lookup_by_leakedb_api(read_in_accounts)#####################################3
+    DictionaryAttack.ntlm_rainbow_table_attack(PASSWORD_DICTIONARY,read_in_accounts)
+    OnlineLookupAttack.online_hash_lookup_by_leakedb_api(DictionaryAttack.uncracked_accounts(read_in_accounts))
+    for accounts in read_in_accounts:
+        accounts.write_output()
     return
 
 if __name__ == "__main__":  # stops main execution if imported as module
