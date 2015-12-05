@@ -68,3 +68,15 @@ class HashedCredential:
     # Post condition: prints output of all object values to screen
           print("\n\n Username: {0.username} \n Status: {0.status} \n Cracked: {0.cracked_yet} \n Plaintext: {0.plaintext} \
                  \n LM Hash: {0.lm} \n NTLM Hash: {0.ntlm} \n Valid Hashes: {0.valid_hashes}".format(self))
+
+
+###############################################################################
+    @staticmethod
+    def uncracked_accounts(account_list):
+        uncracked = []
+        for account in account_list:
+            if account.status != 'successfully cracked':
+                uncracked.append(account)
+        return uncracked
+
+
