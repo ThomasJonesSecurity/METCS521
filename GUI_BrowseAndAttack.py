@@ -22,7 +22,7 @@ def read_and_parse_sam_file_lines(sam_filename):
     # Intent: read in a SAM file and parse out the users and password hashes
     # Precondition: sam_filename is a valid formatted Windows SAM file in
     #               the same path as the python file being fun
-    # Post condition: returns a tuple, accounts, of HashedCredential objects containing:
+    # Post Condition: returns a tuple, accounts, of HashedCredential objects containing:
     #      the username, sam_ntlm_hash and sam_lm_hash from the sam_target_file
 
     accounts = ()  # empty list
@@ -100,10 +100,10 @@ def draw_gui():
     #         and then takes that input file through the parse and crack functions
     # Precondition: sam_target_file is globally initialized to a valid default SAM file
     # Precondition: Display able to render with static geometry dimensions 698x120+250+100
-    # Post condition 1: Allows user to reset sam_target_file to another file with Browse button
+    # Post Condition 1: Allows user to reset sam_target_file to another file with Browse button
     # Post            : pass sam_target_file for reading, account parsing, DictionaryAttack and OnlineLookupAttack
-    # Post condition 2: Show user the path and filename of sam_target_file if they've browsed to a file
-    # Post condition 3: Call read_and_parse_sam_file_lines and online_hash_lookup_by_leakedb_api
+    # Post Condition 2: Show user the path and filename of sam_target_file if they've browsed to a file
+    # Post Condition 3: Call read_and_parse_sam_file_lines and online_hash_lookup_by_leakedb_api
     # with the argument sam_target_file (default or user selected)
 
     gui_sam_target_file = sam_target_file  #default from GlobalValues
@@ -162,11 +162,11 @@ def draw_gui():
                   (Try SAM in the current working directory)')\
         .grid(row=0, column=0, sticky='e')
 
-    # Post condition 2 - Show selected sam_target_file to user in GUI
+    # Post Condition 2 - Show selected sam_target_file to user in GUI
     entry = Entry(f1, width=50, textvariable=sam_target_file)
     entry.grid(row=0, column=1, padx=2, pady=2, sticky='we', columnspan=25)
 
-    # Post condition 1 - Button to Browse for file
+    # Post Condition 1 - Button to Browse for file
     Button(
         f1,
         text="Browse",
@@ -177,7 +177,7 @@ def draw_gui():
         padx=8,
         pady=4)
 
-    # Post condition 3 - Button to call parse and crack functions
+    # Post Condition 3 - Button to call parse and crack functions
     Button(
         f2,
         text="Crack - Output to Console",

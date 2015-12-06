@@ -1,6 +1,6 @@
 import string  # used to confirm hex characters
 
-# CLASS PURPOSE Windows SAM Files store usernames, lm and ntlm hashes.
+# CLASS PURPOSE: Windows SAM Files store usernames, LM and NTLM hashes.
 # This class, HashedCredential, intends to handle the credentials and
 # metadata related to attempting to crack the hashes
 
@@ -11,7 +11,7 @@ class HashedCredential:
         # Intent: Object stores username, ntlm hash string, and lm has string
         #         Also provide status meta-data indicated status of cracking attempt
         # Precondition: all arguments provided as single-line strings
-        # Post condition: initializes an object containing the strings from arguments
+        # Post Condition: initializes an object containing the strings from arguments
         #         Post 1:   as well as default (un-cracked) status values
         #         Post 2:   does some basic length and character checks to help
         #                   validate the input hash strings
@@ -50,7 +50,7 @@ class HashedCredential:
         # Intent: update object with provided plaintext password
         # Precondition: assuming that the function provides a plaintext password string
         #               that is the proper cracked password from the hashes contained in the object
-        # Post condition: updates status, cracked_yet flag, and plaintext
+        # Post Condition: updates status, cracked_yet flag, and plaintext
         #                   validate the input hash strings
         self.cracked_yet = True
         self.plaintext = new_plaintext
@@ -59,13 +59,13 @@ class HashedCredential:
     def update_status(self, new_status):
         # Intent: self.status is using a free-text string to describe the object's state
         # Precondition: a text string is provided as the new_status
-        # Post condition: updates status
+        # Post Condition: updates status
         self.status = new_status
 
     def write_output(self):
         # Intent: Provides basic format to output all object values with descriptions
         # Precondition: Object contains printable values
-        # Post condition: prints output of all object values to screen
+        # Post Condition: prints output of all object values to screen
         print(
             "\n\n Username: {0.username} \n Status: {0.status} \n Cracked: {0.cracked_yet} \n Plaintext: {0.plaintext}\
                  \n LM Hash: {0.lm} \n NTLM Hash: {0.ntlm} \n Valid Hashes: {0.valid_hashes}".format(self))
@@ -73,6 +73,6 @@ class HashedCredential:
     def write_user_and_plaintext(self):
         # Intent: Provides basic format to output all object values with descriptions
         # Precondition: Object contains printable values
-        # Post condition: prints output of all object values to screen
+        # Post Condition: prints output of all object values to screen
         print(
             "        Username: {0.username} \t\t  Plaintext: {0.plaintext}".format(self))

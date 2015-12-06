@@ -14,11 +14,11 @@ Last Modified: 12/6/2015
 
 # Academic Context
 This is my personal project for MET CS 521 Information Structures in Python Project.
-All code is an course related academic exercise. This is an academic hash cracking exercise based on existing attack algorithms so I am going to simulate password attacks.  This is not intended nor warrented for any use. These tasks have all been accomplished by more experience developers.  Please feel free to ask me questions, but understand that this code might never see a production ready level of functionality.
+All code is an course related academic exercise. This is an academic hash cracking exercise based on existing attack algorithms so I am going to simulate password attacks.  This is not intended nor warranted for any use. These tasks have all been accomplished by more experience developers.  Please feel free to ask me questions, but understand that this code might never see a production ready level of functionality.
 
-The SAM file and common_password_list.txt dictionary are contrieved test files. The dictionary is no where near extensive  for significant keyspace hash attacks.
+The SAM file and common_password_list.txt dictionary are contrived test files. The dictionary is nowhere near extensive  for significant key-space hash attacks.
 
-# Dependancies / Python Libraries Used
+# Dependencies / Python Libraries Used
 binascii
 hashlib
 sqlite3
@@ -47,3 +47,4 @@ Adopted LeakDB lookup from:
 http://blog.abusix.com/2013/07/08/using-leakdb-for-compromised-password-hashes/
 
 tkinter Entry() technique adapted from: http://effbot.org/zone/tkinter-geometry.htm
+
