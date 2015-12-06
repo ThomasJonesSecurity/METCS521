@@ -2,11 +2,14 @@ import HashedCredential    # custom class for account objects
 import DictionaryAttack    # dictionary to rainbow table lookup attack
 import OnlineLookupAttack  # threaded online lookup attack by api.leakdb.net
 
-from GlobalValues import sam_target_file      # default SAM file of hashed passwords
-from GlobalValues import PASSWORD_DICTIONARY  # dictionary text file of common passwords
+# default SAM file of hashed passwords
+from GlobalValues import sam_target_file
+# dictionary text file of common passwords
+from GlobalValues import PASSWORD_DICTIONARY
 
 import os
-from tkinter.filedialog import askopenfilename  # Tk GUI for SAM file browse dialog only
+# Tk GUI for SAM file browse dialog only
+from tkinter.filedialog import askopenfilename
 from tkinter import *
 
 # MODULE PURPOSE a GUI is drawn to offer user to browse for a SAM file to crack. Once the crack button
@@ -15,7 +18,8 @@ from tkinter import *
 # printed to the console.
 
 # ATTACK SEQUENCE function pass_file_choice_to_cracking() nested in draw_gui() coordinates the attacks and output.
-# that function orchestrates most of the other modules to obtain, track and attack the one target SAM file.
+# that function orchestrates most of the other modules to obtain, track
+# and attack the one target SAM file.
 
 
 def read_and_parse_sam_file_lines(sam_filename):
@@ -57,15 +61,16 @@ def read_and_parse_sam_file_lines(sam_filename):
 
 def print_cracking_summary(list_of_accounts):
     # Intent: print results and simple summary of how successful the attacks were to console
-    # Pre Condition 1: list_of_accounts is list of HashedCredential objects. Ideally that have been through an attack function.
+    # Pre Condition 1: list_of_accounts is list of HashedCredential objects.
     # Post Condition 1: Print all HashedCredential object's values of interest for each account in the list
     # Post Condition 2: Print usernames and plaintext passwords
-    # Post Condition 3: Prints percentage and number of accounts cracked vs. number of accounts in SAM file
+    # Post Condition 3: Prints percentage and number of accounts cracked vs.
+    # number of accounts in SAM file
 
     cracked_count = 0
     account_count = 0
 
-    #Post 1: HashedCredential values to Console
+    # Post 1: HashedCredential values to Console
     for account in list_of_accounts:
         account_count += 1  # how many accounts
         account.write_output()  # show HashedCredential values
@@ -106,7 +111,7 @@ def draw_gui():
     # Post Condition 3: Call read_and_parse_sam_file_lines and online_hash_lookup_by_leakedb_api
     # with the argument sam_target_file (default or user selected)
 
-    gui_sam_target_file = sam_target_file  #default from GlobalValues
+    gui_sam_target_file = sam_target_file  # default from GlobalValues
 
     # Post 1: User get file
     def get_file_choice():
@@ -122,7 +127,7 @@ def draw_gui():
     def pass_file_choice_to_cracking():
         global gui_sam_target_file
 
-        root.destroy() # close window, remaining work on console
+        root.destroy()  # close window, remaining work on console
 
         # Read and parse accounts and hashes:
         print("\n Reading in accounts from selected file:",
@@ -135,15 +140,15 @@ def draw_gui():
         DictionaryAttack.ntlm_rainbow_table_attack(
             PASSWORD_DICTIONARY, accounts)
 
-        # OnlineLookupAttack on remaining accounts not cracked by DictionaryAttack
+        # OnlineLookupAttack on remaining accounts not cracked by
+        # DictionaryAttack
         print("\n Cracking any remaining accounts with an online lookup through api.leak.db . . . \n")
         OnlineLookupAttack.online_hash_lookup_by_leakedb_api(
             DictionaryAttack.uncracked_accounts(accounts))
 
-        #Summarize
+        # Summarize
         print_cracking_summary(accounts)
         return
-
 
     # Draw GUI
     root = Tk()

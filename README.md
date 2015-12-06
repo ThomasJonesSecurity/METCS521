@@ -32,6 +32,9 @@ unittest
 os
 tkinter
 
+# Unit Test
+TestHashedCredentials.py
+
 # Attribution and Citation:
 Learned to use a main function and protect against execution in modules from:
 Guido van Rossum blog in 2003

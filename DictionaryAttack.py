@@ -1,4 +1,4 @@
-from GlobalValues import DATABASE # name of db in project
+from GlobalValues import DATABASE  # name of db in project
 
 import binascii  # to encode hash as hex
 import hashlib   # to compute hash
@@ -12,11 +12,14 @@ import sqlite3   # for database
 def plaintext_to_ntlm(plaintext):
     # Intent: plaintext -> NTLM hash
     # Precondition: argument is ASCII alpha-numeric string
-    # Post Condition: return the uppercase cipher text NTLM hash computed from the plaintext
+    # Post Condition: return the uppercase cipher text NTLM hash computed from
+    # the plaintext
 
     # Algorithm for NTLM hashing with no salt:
-    md4_hash = hashlib.new('md4', plaintext.encode('utf-16le')).digest()  # md4 hash digest
-    decoded_hash = binascii.hexlify(md4_hash).decode("utf-8")  # Hex in readable format
+    md4_hash = hashlib.new('md4', plaintext.encode(
+        'utf-16le')).digest()  # md4 hash digest
+    decoded_hash = binascii.hexlify(md4_hash).decode(
+        "utf-8")  # Hex in readable format
 
     ntlm_hash = str(decoded_hash).upper()  # all caps
     return ntlm_hash
@@ -46,8 +49,8 @@ def precompute_rainbow_table_db(dictionary_file):
             # Post Condition 4: Compute NTLM Hash
             ntlm = plaintext_to_ntlm(word.rstrip('\n'))  # trim newline char
 
-            cursor.execute(
-                'INSERT INTO rainbow_table VALUES (?,?)', (word, ntlm,))  # Insert into table
+            cursor.execute('INSERT INTO rainbow_table VALUES (?,?)',
+                           (word, ntlm,))  # Insert into table
 
     # Close and commit for file and db
     dictionary.close()
@@ -60,16 +63,19 @@ def precompute_rainbow_table_db(dictionary_file):
 def rainbow_table_lookup(ntlmhash):
     # Intent: return password of ntlmhash if exist in DATABASE rainbow_table
     # Precondition 1: ntlmhash argument is string of valid uppercase NTLM hash
-    # Precondition 2: DATABASE and rainbow_table populated with plaintext passwords and matching NTLM hashed relationships
+    # Precondition 2: DATABASE and rainbow_table populated with plaintext passwords
+    #                 and matching NTLM hashed relationships
     # Post Condition 1: if record is not found, return None
-    # Post Condition 2: if a record where ntlm matches ntlmhash, then the related password is returned
+    # Post Condition 2: if a record where ntlm matches ntlmhash, then the
+    # related password is returned
 
     # db connection
     connection = sqlite3.connect(DATABASE)
     cursor = connection.cursor()
 
+    # search db of ntlm for ntlmhash
     cursor.execute(
-        "SELECT password FROM rainbow_table WHERE ntlm=?", (ntlmhash,))  # search db of ntlm for ntlmhash
+        "SELECT password FROM rainbow_table WHERE ntlm=?", (ntlmhash,))
     record = cursor.fetchone()  # get the record at cursor
     connection.close()
 
@@ -112,7 +118,8 @@ def uncracked_accounts(account_list):
     # Intent: returns list accounts not yet cracked by this attack.  This allows other attacks to
     #         be skip accounts cracked here.
     # Precondition 1: accounts_list is list of at least one HashedCredential objects
-    # Post Condition 1: uncracked is list of all account_list elements where cracked_yet is False
+    # Post Condition 1: uncracked is list of all account_list elements where
+    # cracked_yet is False
     uncracked = []
 
     # Post Condition 1: uncracked appended if not cracked_yet
