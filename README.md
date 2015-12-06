@@ -2,10 +2,12 @@
 This program will attempt to read Windows SAM file, parse the file, and launch an attack against the hashed credentials.
 The current attacks rely on an online lookup of leaked or precomputed hashes through a API provided by http://api.leakdb.net/ and a text file dictionary of common passwords.
 
-# Interpreter
-Python Interpreter Version 3.x
+# Usage
+Execute python3 _init_.py and a GUI file browse dialog will allow for the selection of a Windows SAM file.
+Cracking output and results will be output to the console.
 
-# Pyton Libraries Used
+# Interpreter and Libraries
+Python Interpreter Version 3.x
 binascii  hashlib   sqlite3
 urllib    string    json
 time      queue     threading
