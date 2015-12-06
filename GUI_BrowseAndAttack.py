@@ -1,7 +1,8 @@
 import HashedCredential
 import DictionaryAttack
 import OnlineLookupAttack
-import GlobalValues
+from GlobalValues import sam_target_file
+from GlobalValues import PASSWORD_DICTIONARY
 
 import os
 from tkinter.filedialog import askopenfilename
@@ -88,20 +89,20 @@ def draw_gui():
 
     def get_file_choice():
 
-        GlobalValues.sam_target_file = askopenfilename(
+        sam_target_file = askopenfilename(
             initialdir=os.getcwd(), initialfile="sam_test")
         entry.delete(0, END)
-        entry.insert(0, GlobalValues.sam_target_file)
+        entry.insert(0, sam_target_file)
 
     def pass_file_choice_to_cracking():
         root.destroy()
         print("\n Reading in accounts from selected file:",
-              GlobalValues.sam_target_file, " . . . \n")
-        accounts = read_and_parse_sam_file_lines(GlobalValues.sam_target_file)
+              sam_target_file, " . . . \n")
+        accounts = read_and_parse_sam_file_lines(sam_target_file)
         print("\n Cracking using database computer from dictionary:",
-              GlobalValues.PASSWORD_DICTIONARY, ". . . \n")
+              PASSWORD_DICTIONARY, ". . . \n")
         DictionaryAttack.ntlm_rainbow_table_attack(
-            GlobalValues.PASSWORD_DICTIONARY, accounts)
+            PASSWORD_DICTIONARY, accounts)
         print("\n Cracking any remaining accounts with an online lookup through api.leak.db . . . \n")
         OnlineLookupAttack.online_hash_lookup_by_leakedb_api(
             DictionaryAttack.uncracked_accounts(accounts))
@@ -125,7 +126,7 @@ def draw_gui():
         .grid(row=0, column=0, sticky='e')
 
     # Post condition 2 - Show selected sam_target_file to user in GUI
-    entry = Entry(f1, width=50, textvariable=GlobalValues.sam_target_file)
+    entry = Entry(f1, width=50, textvariable=sam_target_file)
     entry.grid(row=0, column=1, padx=2, pady=2, sticky='we', columnspan=25)
 
     # Post condition 1 - Button to Browse for file
