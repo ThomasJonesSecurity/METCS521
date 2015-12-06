@@ -8,11 +8,6 @@ Cracking output and results will be output to the console.
 
 # Interpreter and Libraries
 Python Interpreter Version 3.x
-binascii  hashlib   sqlite3
-urllib    string    json
-time      queue     threading
-unittest  os        tkinter
-
 
 # Author: Thomas Jones
 Last Modified: 12/6/2015
@@ -22,6 +17,20 @@ This is my personal project for MET CS 521 Information Structures in Python Proj
 All code is an course related academic exercise. This is an academic hash cracking exercise based on existing attack algorithms so I am going to simulate password attacks.  This is not intended nor warrented for any use. These tasks have all been accomplished by more experience developers.  Please feel free to ask me questions, but understand that this code might never see a production ready level of functionality.
 
 The SAM file and common_password_list.txt dictionary are contrieved test files. The dictionary is no where near extensive  for significant keyspace hash attacks.
+
+# Dependancies / Python Libraries Used
+binascii
+hashlib
+sqlite3
+urllib
+string
+json
+time
+queue
+threading
+unittest
+os
+tkinter
 
 # Attribution and Citation:
 Learned to use a main function and protect against execution in modules from:
