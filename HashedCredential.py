@@ -69,5 +69,11 @@ class HashedCredential:
           print("\n\n Username: {0.username} \n Status: {0.status} \n Cracked: {0.cracked_yet} \n Plaintext: {0.plaintext}\
                  \n LM Hash: {0.lm} \n NTLM Hash: {0.ntlm} \n Valid Hashes: {0.valid_hashes}".format(self))
 
+    def write_user_and_plaintext(self):
+    # Intent: Provides basic format to output all object values with descriptions
+    # Precondition: Object contains printable values
+    # Post condition: prints output of all object values to screen
+          print("        Username: {0.username} \t\t  Plaintext: {0.plaintext}".format(self))
+
 
 
