@@ -89,10 +89,10 @@ def draw_gui():
 
     def get_file_choice():
 
-        sam_target_file = askopenfilename(
-            initialdir=os.getcwd(), initialfile="sam_test")
+        gui_sam_target_file = askopenfilename(
+            initialdir=os.getcwd(), initialfile="SAM")
         entry.delete(0, END)
-        entry.insert(0, sam_target_file)
+        entry.insert(0, gui_sam_target_file)
 
     def pass_file_choice_to_cracking():
         root.destroy()
@@ -122,7 +122,7 @@ def draw_gui():
     f2.pack()
 
     Label(f1, text='Select a valid Windows SAM  file \n \
-                  (Try sam_test in the current working directory)')\
+                  (Try SAM in the current working directory)')\
         .grid(row=0, column=0, sticky='e')
 
     # Post condition 2 - Show selected sam_target_file to user in GUI

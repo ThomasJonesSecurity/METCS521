@@ -8,11 +8,13 @@ import sqlite3   # for database
 # the rainbow table enables a reverse lookup of a password if the matched unsalted hash is
 # found in the database.
 
+
 def plaintext_to_ntlm(plaintext):
     ntlmhash = hashlib.new('md4', plaintext.encode('utf-16le')).digest()
     decoded_hash = binascii.hexlify(ntlmhash).decode("utf-8")
     ntlm = str(decoded_hash).upper()
     return ntlm
+
 
 def precompute_rainbow_table_db(dictionary_file):
     # Intent: Initialize database rainbow_table.db with records of passwords and corresponding ntlm hash values

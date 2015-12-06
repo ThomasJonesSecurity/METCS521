@@ -1,5 +1,6 @@
 import GUI_BrowseAndAttack
 
+
 def main():
     GUI_BrowseAndAttack.draw_gui()
 
