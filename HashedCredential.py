@@ -1,6 +1,6 @@
 import string  # used to confirm hex characters
 
-# Windows SAM Files store usernames, lm and ntlm hashes.
+# CLASS PURPOSE Windows SAM Files store usernames, lm and ntlm hashes.
 # This class, HashedCredential, intends to handle the credentials and
 # metadata related to attempting to crack the hashes
 

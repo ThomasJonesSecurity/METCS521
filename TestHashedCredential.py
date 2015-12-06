@@ -1,6 +1,7 @@
 import unittest
 import HashedCredential
 
+# UNIT TEST of HashedCredentials class.  Testing a few edge cases of valid and invalid initilizatoin values.
 
 class TestHashedCredentials(unittest.TestCase):
 

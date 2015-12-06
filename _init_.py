@@ -1,3 +1,6 @@
+# MODULE PURPOSE _init_.py is called to run the main()
+# the GUI and attack work is done by GUI_BrowseAndAttack
+
 import GUI_BrowseAndAttack
 
 
