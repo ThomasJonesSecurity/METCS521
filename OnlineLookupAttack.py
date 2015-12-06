@@ -9,7 +9,8 @@ from threading import Thread
 def get_url(a_queue, a_url):
     # Pre: a_url is a legitimate URL
     # Post: the json encoded response is put into a_queue
-    # Post: if a rate limit HTTPError is ecountered sleep 10 seconds and try second request
+    # Post: if a rate limit HTTPError is ecountered sleep 10 seconds and try
+    # second request
     try:
         response = urllib.request.urlopen(a_url).read()
     except urllib.error.HTTPError as error:
@@ -58,11 +59,12 @@ def online_hash_lookup_by_leakedb_api(accounts_list):
             json = ntlm_queue.get()
             if json['found'] == "true":
                 this_user.cracked(json['hashes'][0]['plaintext'])
-                this_user.update_status("successfully cracked by ntlm online lookup")
+                this_user.update_status(
+                    "successfully cracked by ntlm online lookup")
         if(lm_queue.not_empty):
             json = lm_queue.get()
             if json['found'] == "true":
                 this_user.cracked(json['hashes'][0]['plaintext'])
-                this_user.update_status("successfully cracked by lm online lookup")
+                this_user.update_status(
+                    "successfully cracked by lm online lookup")
     return
-

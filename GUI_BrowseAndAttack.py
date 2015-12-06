@@ -7,6 +7,7 @@ import os
 from tkinter.filedialog import askopenfilename
 from tkinter import *
 
+
 def read_and_parse_sam_file_lines(sam_filename):
     # Intent: read in a SAM file and parse out the users and password hashes
     # Precondition: sam_filename is a valid formatted Windows SAM file in
@@ -43,10 +44,10 @@ def read_and_parse_sam_file_lines(sam_filename):
 
     return accounts
 
+
 def print_cracking_summary(list_of_accounts):
     cracked_count = 0
     account_count = 0
-
 
     for account in list_of_accounts:
         account_count += 1
@@ -59,10 +60,21 @@ def print_cracking_summary(list_of_accounts):
         account.write_user_and_plaintext()
 
     print("\n SUMMARY:\n--------------------------------------------------------- ")
-    print("         ",100 * float(cracked_count)/float(account_count),"% of accounts successfully cracked")
-    print("         ",cracked_count," of",account_count,"accounts provided have been cracked")
+    print(
+        "         ",
+        100 *
+        float(cracked_count) /
+        float(account_count),
+        "% of accounts successfully cracked")
+    print(
+        "         ",
+        cracked_count,
+        " of",
+        account_count,
+        "accounts provided have been cracked")
 
     return
+
 
 def draw_gui():
     # Intent: provide a tkinter GUI that allows user to browse for a valid SAM file
@@ -72,7 +84,7 @@ def draw_gui():
     # Post condition 1: Allows user to reset sam_target_file to another file with Browse button
     # Post condition 2: Show user the path and filename of sam_target_file if they've browsed to a file
     # Post condition 3: Call read_and_parse_sam_file_lines and online_hash_lookup_by_leakedb_api
-    #                  with the argument sam_target_file (default or user selected)
+    # with the argument sam_target_file (default or user selected)
 
     def get_file_choice():
 
@@ -83,12 +95,16 @@ def draw_gui():
 
     def pass_file_choice_to_cracking():
         root.destroy()
-        print("\n Reading in accounts from selected file:",GlobalValues.sam_target_file," . . . \n")
+        print("\n Reading in accounts from selected file:",
+              GlobalValues.sam_target_file, " . . . \n")
         accounts = read_and_parse_sam_file_lines(GlobalValues.sam_target_file)
-        print("\n Cracking using database computer from dictionary:",GlobalValues.PASSWORD_DICTIONARY,". . . \n")
-        DictionaryAttack.ntlm_rainbow_table_attack(GlobalValues.PASSWORD_DICTIONARY,accounts)
+        print("\n Cracking using database computer from dictionary:",
+              GlobalValues.PASSWORD_DICTIONARY, ". . . \n")
+        DictionaryAttack.ntlm_rainbow_table_attack(
+            GlobalValues.PASSWORD_DICTIONARY, accounts)
         print("\n Cracking any remaining accounts with an online lookup through api.leak.db . . . \n")
-        OnlineLookupAttack.online_hash_lookup_by_leakedb_api(DictionaryAttack.uncracked_accounts(accounts))
+        OnlineLookupAttack.online_hash_lookup_by_leakedb_api(
+            DictionaryAttack.uncracked_accounts(accounts))
         print_cracking_summary(accounts)
         return
 
