@@ -51,3 +51,5 @@ http://blog.abusix.com/2013/07/08/using-leakdb-for-compromised-password-hashes/
 
 tkinter Entry() technique adapted from: http://effbot.org/zone/tkinter-geometry.htm
 
+NTLM Hash generation algorithm modified from:
+https://www.trustedsec.com/march/generate-an-ntlm-hash-in-3-lines-of-python/
